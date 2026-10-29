@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# licensed third-party components (Osmo Supply) — never commit
+/src/app/Components/Premium/

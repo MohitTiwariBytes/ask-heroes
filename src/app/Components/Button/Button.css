@@ -1,0 +1,31 @@
+.fallback-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75em 1.25em;
+  border: 0;
+  border-radius: 0.375em;
+  background-color: #131313;
+  color: #ffe224;
+  font: inherit;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: scale 0.15s ease;
+}
+
+.fallback-button:focus-visible {
+  outline: 0.125em solid #000;
+  outline-offset: 0.125em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fallback-button:hover {
+    scale: 1.035;
+  }
+}
+
+.fallback-button:active {
+  scale: 0.975;
+}
