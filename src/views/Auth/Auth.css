@@ -5,13 +5,13 @@
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    padding: 25px;
+    padding: 20px 20px 20px 60px;
 }
 
 .logoTopLeft{
     position: fixed;
-    top: 25px;
-    left: 25px;
+    top: 60px;
+    left: 60px;
 }
 
 .login-content{
@@ -68,7 +68,6 @@
 #googleLoginButton svg{
     height: 20px;
     width: 20px;
-    filter: brightness(0) saturate(100%) invert(100%) sepia(7%) saturate(0%) hue-rotate(48deg) brightness(106%) contrast(106%);
 }
 
 #googleLoginButton:active{
@@ -99,3 +98,97 @@
     letter-spacing: 0.08em;
     padding: 5px 32px;
 }
+
+.email-login{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 400px;
+}
+
+.input-grp-email-login, .input-grp-password-login{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
+.input-grp-email-login input, .input-grp-password-login input{
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #0E0E10;
+    border: 1px solid #2A2A2E;
+    font-family: "Inter";
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    transition: box-shadow 0.1s ease;
+    color: white;
+}
+.input-grp-email-login span, .input-grp-password-login span{
+    color: white;
+    font-family: "Inter";
+    letter-spacing: -0.02em;
+}
+
+.input-grp-email-login input:focus, .input-grp-password-login input:focus{
+    outline: none;
+    box-shadow: inset 0 0 0 2px #2A2A2E;
+}
+
+.input-grp-email-login input:-webkit-autofill,
+.input-grp-email-login input:-webkit-autofill:hover,
+.input-grp-email-login input:-webkit-autofill:focus,
+.input-grp-email-login input:-webkit-autofill:active {
+    transition: background-color 9999s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+}
+.input-grp-password-login input:-webkit-autofill,
+.input-grp-password-login input:-webkit-autofill:hover,
+.input-grp-password-login input:-webkit-autofill:focus,
+.input-grp-password-login input:-webkit-autofill:active {
+    transition: background-color 9999s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+}
+
+
+
+.continue-button-login button{
+    width: 400px;
+    height: 52px;
+    color: white;
+    background-color: #1F6FEB;
+    border: none;
+    border-radius: 12px;
+    letter-spacing: -.02em;
+    font-family: "Inter";
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.continue-button-login button:active {
+    scale: 0.99;
+}
+
+#info-new-account-login{
+    font-size: 14px;
+    font-family: "Inter";
+    letter-spacing: -0.02em;
+    color: #8E8E96;
+    text-align: center;
+    width: 400px;
+}
+
+.right-image{
+    height: 100%;
+    width: 50%;
+}
+
+.right-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+}
+

@@ -15,7 +15,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={marvelFont.variable}>
-      <body>{children}</body>
+      <body>
+        <div className="app-content">{children}</div>
+        <div className="small-screen-message">
+          <p>
+            Ask Heroes isn&apos;t available on smaller screens yet. Please use a
+            laptop or desktop to continue.
+          </p>
+        </div>
+      </body>
     </html>
   );
 }
