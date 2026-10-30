@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const marvelFont = localFont({
-  src: "./Assets/Fonts/Marvel-Regular.ttf",
+  src: "../assets/Fonts/Marvel-Regular.ttf",
   variable: "--font-marvel",
   display: "swap",
 });

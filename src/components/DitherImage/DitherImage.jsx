@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import * as THREE from "three";
 import useDitherFluid from "../DitherCore/useDitherFluid";
-import { loadImageWithCorsFallback } from "../../utils/corsImage";
+import { loadImageWithCorsFallback } from "../../lib/corsImage";
 import "./DitherImage.css";
 
 export default function DitherImage({
