@@ -1,0 +1,17 @@
+.dashboard-layout{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: black;
+}
+
+.sidebar-area{
+    width: 280px;
+    height: 100%;
+}
+
+.content-area{
+    width: calc(100% - 280px);
+}

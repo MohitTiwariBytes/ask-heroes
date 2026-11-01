@@ -1,0 +1,39 @@
+.toast-popup{
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 1000;
+    max-width: min(480px, calc(100vw - 32px));
+    text-align: center;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+
+}
+
+.toast-popup span{
+    font-size: 16px;
+    font-family: "Inter";
+    letter-spacing: -0.02em;
+    
+}
+
+.toast-popup.success{
+    background-color: #DFF2BF;
+    border: 1px solid #4F8A10;
+}
+
+.toast-popup.success span{
+    color: #4F8A10;
+}
+.toast-popup.failed{
+    background-color: #FFBABA;
+    border: 1px solid #D8000C;
+}
+
+.toast-popup.failed span{
+    color: #D8000C;
+}

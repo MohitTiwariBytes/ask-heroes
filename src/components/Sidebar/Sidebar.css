@@ -1,0 +1,217 @@
+.main-sidebar{
+    width: 100%;
+    height: 100%;
+    background-color: #09090B;
+    padding: 20px;
+    border-right: 1px solid #232328;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.top-bar-sidebar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-close-btn{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sidebar-close-btn:hover .background-btn-sidebar-close{
+    transform: scale(1);
+    opacity: 1;
+}
+
+.background-btn-sidebar-close{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 15px;
+    border-radius: 3px;
+    background-color: #1d1d1d;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.2s ease;
+}
+
+.new-chat-button-sidebar{
+    width: 100%;
+    height: 40px;
+}
+
+.new-chat-button-sidebar button{
+    width: 100%;
+    height: 40px;
+    padding: 10.5px 12px;
+    text-align: start;
+    background-color: #111114;
+    border: 1px solid #232328;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    font-family: "Inter";
+    letter-spacing: -0.02em;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.new-chat-button-sidebar button:hover{
+    background-color: #18181a;
+}
+
+.new-chat-button-sidebar button:active{
+    transform: scale(0.99);
+}
+
+.navigation-sidebar{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.link-sidebar{
+    width: 100%;
+    padding: 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    gap: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-decoration: none;
+}
+
+.link-sidebar:hover{
+    background-color: #1b1b1d;
+}
+
+.link-sidebar.active:hover{
+    background-color: #212127;
+}
+
+.link-sidebar span{
+    font-size: 15px;
+    font-family: "Inter";
+    color: #C8C8D0;
+}
+
+.link-sidebar.active{
+    background-color: #1A1A1E;
+}
+
+.link-sidebar.active svg{
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+.link-sidebar.active span{
+    color: white;
+}
+
+.sidebar-bottom{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+}
+
+.user-info-sidebar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-name-grp-sidebar{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+
+}
+
+.user-pfp-sidebar{
+    width: 32px;
+    height: 32px;   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2A2A30;
+    color: white;
+    border-radius: 60px;
+}
+
+.user-pfp-sidebar span{
+    font-family: "Inter";
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.user-name-sidebar{
+    margin-bottom: -3px;
+}
+
+.user-name-sidebar span{
+    display: inline-block;
+    width: 150px;
+    color: white;
+    font-family: "Inter";
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logout-btn-sidebar{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logout-btn-sidebar:hover .background-btn-sidebar-logout {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.background-btn-sidebar-logout{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 15px;
+    border-radius: 3px;
+    background-color: #1d1d1d;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.2s ease;
+}

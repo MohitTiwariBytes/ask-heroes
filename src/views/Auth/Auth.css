@@ -14,14 +14,40 @@
     left: 60px;
 }
 
-.login-content{
+/* Holds the login and profile steps; clips them as they slide in and out */
+.auth-steps{
+    position: relative;
     width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.login-content{
+    width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: start;
     flex-direction: column;
     gap: 20px;
+}
+
+/* Sits on top of the login step, hidden until GSAP slides it in from the right */
+.profile-step{
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+}
+
+/* Hide the number input spinners on the age field */
+.profile-step input[type="number"]{
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.profile-step input[type="number"]::-webkit-outer-spin-button,
+.profile-step input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .title-login{

@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   setPersistence,
   signOut,
+  signInWithPopup,
 } from "firebase/auth";
 
 export async function signUpEmail(auth, email, password) {
@@ -28,6 +29,10 @@ export function watchAuthState(auth, callback) {
   return onAuthStateChanged(auth, callback);
 }
 
-export function signOutEmail(auth) {
+export function signUserOut(auth) {
   return signOut(auth);
+}
+
+export function googleSignIn(auth, provider) {
+  return signInWithPopup(auth, provider);
 }
