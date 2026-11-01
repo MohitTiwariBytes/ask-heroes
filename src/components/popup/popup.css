@@ -1,83 +1,50 @@
 .popup-overlay{
     position: fixed;
     inset: 0;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
+    z-index: var(--z-overlay);
+    background-color: var(--scrim);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;
+    padding: var(--space-4);
 }
 
 .popup-card{
-    width: min(400px, 100%);
-    background-color: #111114;
-    border: 1px solid #232328;
-    border-radius: 14px;
-    padding: 24px;
+    width: min(var(--overlay-sm), 100%);
+    padding: var(--space-5);
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    font-family: "Inter";
-    letter-spacing: -0.02em;
+    gap: var(--space-2);
 }
 
 .popup-title{
     margin: 0;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
+    color: var(--text-1);
+    font: var(--type-heading);
+    letter-spacing: var(--tracking-heading);
 }
 
 .popup-message{
     margin: 0;
-    color: #8E8E96;
-    font-size: 14px;
-    line-height: 1.5;
+    color: var(--text-2);
+    font: var(--type-body-sm);
+    letter-spacing: var(--tracking-body);
+    max-width: var(--measure-hint);
 }
 
 .popup-options{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    gap: 8px;
-    margin-top: 16px;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
 }
 
 .popup-btn{
-    height: 38px;
-    padding: 0 16px;
-    border-radius: 10px;
-    border: 1px solid #232328;
-    background-color: #18181a;
-    color: white;
-    font-family: "Inter";
-    letter-spacing: -0.02em;
-    font-size: 14px;
+    height: var(--control);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    font: var(--type-label);
+    letter-spacing: var(--tracking-label);
     cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.popup-btn:hover{
-    background-color: #1f1f22;
-}
-
-.popup-btn.primary{
-    background-color: white;
-    border-color: white;
-    color: #09090B;
-}
-
-.popup-btn.primary:hover{
-    background-color: #e4e4e7;
-}
-
-.popup-btn.destructive{
-    background-color: #D8000C;
-    border-color: #D8000C;
-}
-
-.popup-btn.destructive:hover{
-    background-color: #b3000a;
 }

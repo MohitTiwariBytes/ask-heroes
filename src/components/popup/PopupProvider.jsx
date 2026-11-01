@@ -8,12 +8,17 @@ const PopupContext = createContext(null);
 export function PopupProvider({ children }) {
   const [popup, setPopup] = useState(null);
 
-  // Resolves with the chosen option's `value` (or null if dismissed) once the
-  // popup has animated out. Each option may also carry its own `onClick`.
   const showPopup = useCallback(
     ({ title, message, options = [], dismissible = true }) =>
       new Promise((resolve) =>
-        setPopup({ id: Date.now(), title, message, options, dismissible, resolve }),
+        setPopup({
+          id: Date.now(),
+          title,
+          message,
+          options,
+          dismissible,
+          resolve,
+        }),
       ),
     [],
   );

@@ -11,7 +11,7 @@ export default function Button(props) {
 }
 
 export function FallbackButton({ href, children, className = "", ...rest }) {
-  const classes = `fallback-button ${className}`.trim();
+  const classes = `fallback-button glass glass-ink ${className}`.trim();
 
   if (href) {
     return (

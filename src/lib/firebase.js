@@ -3,8 +3,6 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
-// Next.js only inlines NEXT_PUBLIC_* vars when referenced literally,
-// so each one has to be spelled out here.
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -24,12 +22,10 @@ if (missing.length) {
   );
 }
 
-// Reuse the existing app on hot reload instead of initializing twice
 export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Analytics needs a browser, so it can't run during SSR
 export const getAnalyticsInstance = async () =>
   typeof window !== "undefined" && (await isSupported())
     ? getAnalytics(app)

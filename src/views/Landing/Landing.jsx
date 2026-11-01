@@ -82,7 +82,10 @@ export default function Landing() {
           onMouseEnter={() => animateHover(HOVER.in)}
           onMouseLeave={() => animateHover(HOVER.out)}
           className="button-landing"
-          style={{ fontFamily: "Inter", letterSpacing: "-0.02em" }}
+          style={{
+            fontFamily: "var(--font-sans)",
+            letterSpacing: "var(--tracking-label)",
+          }}
         >
           Get Started
         </Button>

@@ -8,8 +8,6 @@ const ToastContext = createContext(null);
 export function ToastProvider({ children }) {
   const [toast, setToast] = useState(null);
 
-  // A fresh id remounts the toast so back-to-back messages replay the animation.
-  // `onDone` runs once the toast has animated out (e.g. to redirect afterwards).
   const showToast = useCallback(
     (message, success = false, onDone) =>
       setToast({ id: Date.now(), message, success, onDone }),

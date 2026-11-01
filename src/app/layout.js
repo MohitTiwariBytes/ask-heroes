@@ -1,4 +1,6 @@
 import localFont from "next/font/local";
+import { Geist, Geist_Mono } from "next/font/google";
+import "@/styles/glaze/glaze.css";
 import "./globals.css";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { PopupProvider } from "@/components/popup/PopupProvider";
@@ -9,6 +11,18 @@ const marvelFont = localFont({
   display: "swap",
 });
 
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
 export const metadata = {
   title: "Ask Heroes",
   description: "Ask Heroes",
@@ -16,8 +30,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={marvelFont.variable}>
-      <body>
+    <html
+      lang="en"
+      data-theme="dark"
+      className={`${marvelFont.variable} ${geistSans.variable} ${geistMono.variable}`}
+    >
+      <body className="glaze">
         <ToastProvider>
           <PopupProvider>
             <div className="app-content">{children}</div>

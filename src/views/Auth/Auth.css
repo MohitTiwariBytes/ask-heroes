@@ -1,11 +1,11 @@
 .main-auth-page{
-    background-color: black;
+    background-color: var(--page);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    padding: 20px 20px 20px 60px;
+    padding: var(--space-5) var(--space-5) var(--space-5) 60px;
 }
 
 .logoTopLeft{
@@ -14,7 +14,6 @@
     left: 60px;
 }
 
-/* Holds the login and profile steps; clips them as they slide in and out */
 .auth-steps{
     position: relative;
     width: 50%;
@@ -29,17 +28,15 @@
     justify-content: center;
     align-items: start;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-5);
 }
 
-/* Sits on top of the login step, hidden until GSAP slides it in from the right */
 .profile-step{
     position: absolute;
     inset: 0;
     visibility: hidden;
 }
 
-/* Hide the number input spinners on the age field */
 .profile-step input[type="number"]{
     -moz-appearance: textfield;
     appearance: textfield;
@@ -53,51 +50,40 @@
 .title-login{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--space-1);
 }
 
 .title-login h1{
     font-size: 88px;
     font-family: var(--font-marvel);
     letter-spacing: 0.04em;
-    color: white;
+    color: var(--text-1);
     line-height: 100%;
 }
 .title-login span{
-    font-size: 16px;
-    font-family: "Inter";
-    letter-spacing: -0.02em;
-    color: white;
-    opacity: 0.7;
+    font: var(--type-body);
+    letter-spacing: var(--tracking-body);
+    color: var(--text-2);
 }
 
 
 #googleLoginButton{
     width: 400px;
-    height: 52px;
-    /* padding: 15px; */
+    height: var(--control-lg);
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: var(--space-1-5);
     justify-content: center;
     align-items: center;
-    background-color: #0E0E10;
-    border: 1px solid #2A2A2E;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    letter-spacing: -0.02em;
-    font-family: "Inter";
+    border-radius: var(--radius-pill);
+    font: var(--type-label-lg);
+    letter-spacing: var(--tracking-label);
     cursor: pointer;
 }
 
 #googleLoginButton svg{
-    height: 20px;
-    width: 20px;
-}
-
-#googleLoginButton:active{
-    scale: 0.99;
+    height: var(--icon-lg);
+    width: var(--icon-lg);
 }
 
 .seperator-login{
@@ -106,29 +92,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: var(--space-4);
 }
 
 .line-login{
     width: 100%;
-    height: 1px;
-    background-color: #2A2A2E;
+    height: var(--line-width);
+    background-color: var(--line);
 }
 
 .seperator-login span{
     position: absolute;
-    background: black;
-    color: #8E8E96;
-    font-family: "Inter";
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    padding: 5px 32px;
+    background: var(--page);
+    color: var(--text-2);
+    font: var(--type-label-sm);
+    letter-spacing: var(--tracking-label);
+    padding: var(--space-1) var(--space-6);
 }
 
 .email-login{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: var(--space-4);
     width: 400px;
 }
 
@@ -136,30 +121,33 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 10px;
+    gap: var(--space-1-5);
 }
 
 .input-grp-email-login input, .input-grp-password-login input{
     width: 100%;
-    padding: 15px;
-    border-radius: 12px;
-    background-color: #0E0E10;
-    border: 1px solid #2A2A2E;
-    font-family: "Inter";
-    font-size: 16px;
-    letter-spacing: -0.02em;
-    transition: box-shadow 0.1s ease;
-    color: white;
+    height: var(--control-lg);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    background-color: var(--paper);
+    border: var(--line-width) solid var(--line-control);
+    font: var(--type-body);
+    letter-spacing: var(--tracking-body);
+    color: var(--text-1);
+    transition: border-color var(--dur-state) var(--ease-out);
+}
+.input-grp-email-login input::placeholder, .input-grp-password-login input::placeholder{
+    color: var(--text-3);
 }
 .input-grp-email-login span, .input-grp-password-login span{
-    color: white;
-    font-family: "Inter";
-    letter-spacing: -0.02em;
+    color: var(--text-1);
+    font: var(--type-label);
+    letter-spacing: var(--tracking-label);
 }
 
 .input-grp-email-login input:focus, .input-grp-password-login input:focus{
     outline: none;
-    box-shadow: inset 0 0 0 2px #2A2A2E;
+    border-color: var(--line-focus);
 }
 
 .input-grp-email-login input:-webkit-autofill,
@@ -167,41 +155,32 @@
 .input-grp-email-login input:-webkit-autofill:focus,
 .input-grp-email-login input:-webkit-autofill:active {
     transition: background-color 9999s ease-in-out 0s;
-    -webkit-text-fill-color: white !important;
+    -webkit-text-fill-color: var(--text-1) !important;
 }
 .input-grp-password-login input:-webkit-autofill,
 .input-grp-password-login input:-webkit-autofill:hover,
 .input-grp-password-login input:-webkit-autofill:focus,
 .input-grp-password-login input:-webkit-autofill:active {
     transition: background-color 9999s ease-in-out 0s;
-    -webkit-text-fill-color: white !important;
+    -webkit-text-fill-color: var(--text-1) !important;
 }
 
 
 
 .continue-button-login button{
     width: 400px;
-    height: 52px;
-    color: white;
-    background-color: #1F6FEB;
-    border: none;
-    border-radius: 12px;
-    letter-spacing: -.02em;
-    font-family: "Inter";
-    font-size: 16px;
+    height: var(--control-lg);
+    border-radius: var(--radius-pill);
+    font: var(--type-label-lg);
+    letter-spacing: var(--tracking-label);
     text-align: center;
     cursor: pointer;
 }
 
-.continue-button-login button:active {
-    scale: 0.99;
-}
-
 #info-new-account-login{
-    font-size: 14px;
-    font-family: "Inter";
-    letter-spacing: -0.02em;
-    color: #8E8E96;
+    font: var(--type-body-sm);
+    letter-spacing: var(--tracking-body);
+    color: var(--text-2);
     text-align: center;
     width: 400px;
 }
@@ -215,6 +194,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 24px;
+    border-radius: var(--radius-shell);
 }
 

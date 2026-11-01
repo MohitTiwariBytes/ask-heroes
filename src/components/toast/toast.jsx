@@ -10,7 +10,6 @@ export default function Toast({ message, success, duration = 1.5, onClose }) {
   useEffect(() => {
     const tl = gsap.timeline({ onComplete: () => onClose?.() });
 
-    // Slide in, hold for `duration` seconds, then slide out and unmount
     tl.fromTo(
       toastRef.current,
       { y: -40, opacity: 0 },

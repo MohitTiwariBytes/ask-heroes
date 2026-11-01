@@ -4,24 +4,32 @@ import React, { useEffect, useRef } from "react";
 import "./popup.css";
 import gsap from "gsap";
 
-export default function Popup({ title, message, options, dismissible, onClose }) {
+export default function Popup({
+  title,
+  message,
+  options,
+  dismissible,
+  onClose,
+}) {
   const overlayRef = useRef(null);
   const cardRef = useRef(null);
   const closingRef = useRef(false);
 
   useEffect(() => {
     const tl = gsap.timeline();
-    tl.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.25 })
-      .fromTo(
-        cardRef.current,
-        { y: 20, scale: 0.96, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" },
-        "<",
-      );
+    tl.fromTo(
+      overlayRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.25 },
+    ).fromTo(
+      cardRef.current,
+      { y: 20, scale: 0.96, opacity: 0 },
+      { y: 0, scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" },
+      "<",
+    );
     return () => tl.kill();
   }, []);
 
-  // Animate out first, then hand the chosen option (or null) back to the provider
   const close = (option = null) => {
     if (closingRef.current) return;
     closingRef.current = true;
@@ -52,7 +60,12 @@ export default function Popup({ title, message, options, dismissible, onClose })
       className="popup-overlay"
       onClick={(e) => dismissible && e.target === e.currentTarget && close()}
     >
-      <div ref={cardRef} className="popup-card" role="dialog" aria-modal="true">
+      <div
+        ref={cardRef}
+        className="popup-card overlay"
+        role="dialog"
+        aria-modal="true"
+      >
         {title && <h3 className="popup-title">{title}</h3>}
         {message && <p className="popup-message">{message}</p>}
         {options.length > 0 && (
@@ -63,10 +76,10 @@ export default function Popup({ title, message, options, dismissible, onClose })
                 autoFocus={i === options.length - 1}
                 className={`popup-btn ${
                   option.destructive
-                    ? "destructive"
+                    ? "glass glass-coral"
                     : option.primary
-                      ? "primary"
-                      : ""
+                      ? "glass glass-ink"
+                      : "flat"
                 }`}
                 onClick={() => close(option)}
               >

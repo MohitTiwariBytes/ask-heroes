@@ -40,12 +40,12 @@ export default function AuthPage() {
     showToast(message);
   };
 
-  // Slide the login form off to the left and bring the profile form in from the right
+  // Slide the login form of to the left and bring the profile form in from the right
   const showProfileStep = (signedInUser) => {
     signingInRef.current = true;
     setLoading(false);
 
-    // Google gives us a display name, so only the age is left to fill in
+    // we already have the name because the signing method is google, so pre-fill the name input with the fetched name
     if (signedInUser.displayName && !nameInputRef.current.value) {
       nameInputRef.current.value = signedInUser.displayName;
     }
@@ -76,7 +76,7 @@ export default function AuthPage() {
       );
   };
 
-  // Returning users go straight in; anyone without a profile yet fills it in first
+  // Returning users can go without adding name twice
   const continueWithProfile = (signedInUser) =>
     getUserProfile(db, signedInUser.uid).then((profile) => {
       if (profile) {
@@ -110,7 +110,7 @@ export default function AuthPage() {
     const email = emailInputRef.current.value.trim();
     const password = passwordInputRef.current.value;
 
-    // Don't hit Firebase with empty fields
+    // Restrict hitting firebase with empty fields
     if (!email || !password) {
       showToast("Please enter both your email and password.");
       return;
@@ -189,7 +189,6 @@ export default function AuthPage() {
     saveUserProfile(db, auth.currentUser, { name, age })
       .then(onAuthSuccess)
       .catch((error) => {
-        // Still signed in, so stay on this step and let them retry
         setLoading(false);
         showToast(error.message);
       });
@@ -217,6 +216,7 @@ export default function AuthPage() {
               onClick={initiateGoogleSignUp}
               disabled={loading}
               id="googleLoginButton"
+              className="flat"
               ref={googleLoginButton}
             >
               {" "}
@@ -266,6 +266,7 @@ export default function AuthPage() {
               }}
               disabled={loading}
               ref={continueButtonRef}
+              className="glass glass-ink"
             >
               {loading ? "Loading..." : "Continue"}
             </button>
@@ -304,7 +305,11 @@ export default function AuthPage() {
             </div>
           </div>
           <div className="continue-button-login">
-            <button onClick={submitProfile} disabled={loading}>
+            <button
+              className="glass glass-ink"
+              onClick={submitProfile}
+              disabled={loading}
+            >
               {loading ? "Saving..." : "Continue"}
             </button>
           </div>

@@ -23,8 +23,6 @@ export async function signInEmail(auth, email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-// Calls back with the persisted user (or null) on load and on every auth change.
-// Returns the unsubscribe function.
 export function watchAuthState(auth, callback) {
   return onAuthStateChanged(auth, callback);
 }

@@ -6,39 +6,6 @@
   padding: 0;
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(94, 94, 94, 0.2) transparent;
-  /* thumb, track */
-}
-
-/* Chrome, Edge, Safari */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-  /* this hides the track */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 9999px;
-  border: 2px solid transparent;
-  /* adds padding around the thumb */
-  background-clip: content-box;
-  /* keeps the padding see-through */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.35);
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
 
 html,
 body {
@@ -67,13 +34,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    background: #000;
-    color: #fff;
-    font-family: "Inter", sans-serif;
-    font-weight: 700;
-    font-size: 24px;
-    letter-spacing: -0.03em;
+    padding: var(--space-6);
+    background: var(--page);
+    color: var(--text-1);
+    font: var(--type-heading);
+    letter-spacing: var(--tracking-heading);
     text-align: center;
   }
 
@@ -89,11 +54,11 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
-  background-color: black;
-  color: white;
+  z-index: var(--z-overlay);
+  background-color: var(--page);
+  color: var(--text-2);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Inter";
+  font: var(--type-body);
 }

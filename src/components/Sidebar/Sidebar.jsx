@@ -8,6 +8,8 @@ import { useToast } from "../toast/ToastProvider";
 import { useState, useRef, useEffect } from "react";
 import { usePopup } from "../popup/PopupProvider";
 import { getUserProfile } from "@/backend/User/main";
+import { watchChats } from "@/backend/Chat/main";
+import { useChat } from "../ChatView/ChatProvider";
 import { db } from "@/lib/firebase";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,6 +26,8 @@ export default function Sidebar() {
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState(null);
   const [userInitial, setUserInitial] = useState(null);
+  const [chats, setChats] = useState([]);
+  const { startNewChat } = useChat();
 
   useEffect(
     () =>
@@ -44,6 +48,14 @@ export default function Sidebar() {
       })
       .catch((error) => showToast(error.message));
   }, [userId]);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    return watchChats(db, userId, setChats, (error) =>
+      showToast(error.message),
+    );
+  }, [userId, showToast]);
 
   useEffect(() => {
     if (!username) return;
@@ -132,20 +144,20 @@ export default function Sidebar() {
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
               <path
                 d="M6.75 2.25V15.75"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
             </svg>
           </div>
         </div>
         <div className="new-chat-button-sidebar">
-          <button>
+          <button className="flat" onClick={startNewChat}>
             <svg
               width="16"
               height="16"
@@ -158,7 +170,7 @@ export default function Sidebar() {
                 strokeWidth="1.33333"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="white"
+                stroke="currentColor"
               />
             </svg>
             New Chat
@@ -178,7 +190,7 @@ export default function Sidebar() {
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
             </svg>
             <span>Chat</span>
@@ -196,21 +208,21 @@ export default function Sidebar() {
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
               <path
                 d="M2.25 15.75V14.25C2.25 13.4544 2.56607 12.6913 3.12868 12.1287C3.69129 11.5661 4.45435 11.25 5.25 11.25H8.25C9.04565 11.25 9.80871 11.5661 10.3713 12.1287C10.9339 12.6913 11.25 13.4544 11.25 14.25V15.75"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
               <path
                 d="M12 2.32501C12.6628 2.47607 13.2546 2.84775 13.6786 3.37916C14.1025 3.91058 14.3334 4.57022 14.3334 5.25001C14.3334 5.92981 14.1025 6.58945 13.6786 7.12086C13.2546 7.65228 12.6628 8.02396 12 8.17501M15.75 15.75V14.25C15.7545 13.5815 15.5356 12.9306 15.1279 12.4006C14.7203 11.8707 14.1473 11.4921 13.5 11.325"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
             </svg>
 
@@ -229,12 +241,30 @@ export default function Sidebar() {
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
             </svg>
             <span>Saved</span>
           </Link>
         </div>
+        {chats.length > 0 && (
+          <div className="recent-chats-sidebar">
+            <span className="recent-chats-title-sidebar">Recents</span>
+            <div className="recent-chats-list-sidebar">
+              {chats.map((chat) => (
+                <Link
+                  key={chat.id}
+                  href={`/dashboard/chat/${chat.id}`}
+                  className={`recent-chat-sidebar${
+                    pathname === `/dashboard/chat/${chat.id}` ? " active" : ""
+                  }`}
+                >
+                  {chat.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       <div className="sidebar-bottom">
         <div className="user-info-sidebar">
@@ -260,21 +290,21 @@ export default function Sidebar() {
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
               <path
                 d="M12 12.75L15.75 9L12 5.25"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
               <path
                 d="M15.75 9H6.75"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                stroke="#8E8E96"
+                stroke="currentColor"
               />
             </svg>
           </div>

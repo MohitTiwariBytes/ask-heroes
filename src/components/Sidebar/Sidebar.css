@@ -1,9 +1,9 @@
 .main-sidebar{
     width: 100%;
     height: 100%;
-    background-color: #09090B;
-    padding: 20px;
-    border-right: 1px solid #232328;
+    background-color: var(--shell);
+    padding: var(--space-5) var(--space-3);
+    border-right: var(--line-width) solid var(--line-faint);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -12,11 +12,12 @@
 .sidebar-top {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-5);
 }
 
 .top-bar-sidebar{
     width: 100%;
+    padding-left: var(--space-2);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -26,14 +27,21 @@
 .sidebar-close-btn{
     position: relative;
     z-index: 1;
+    width: var(--control);
+    height: var(--control);
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text-3);
     cursor: pointer;
+    transition: color var(--dur-state) var(--ease-out);
+}
+
+.sidebar-close-btn:hover{
+    color: var(--text-1);
 }
 
 .sidebar-close-btn:hover .background-btn-sidebar-close{
-    transform: scale(1);
     opacity: 1;
 }
 
@@ -41,101 +49,91 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    padding: 15px;
-    border-radius: 3px;
-    background-color: #1d1d1d;
+    border-radius: var(--radius-pill);
+    background-color: var(--hover);
     z-index: -1;
     opacity: 0;
-    transform: scale(0.95);
-    transition: all 0.2s ease;
+    transition: opacity var(--dur-state) var(--ease-out);
 }
 
 .new-chat-button-sidebar{
     width: 100%;
-    height: 40px;
+    height: var(--control-lg);
 }
 
 .new-chat-button-sidebar button{
     width: 100%;
-    height: 40px;
-    padding: 10.5px 12px;
+    height: var(--control-lg);
+    padding: 0 var(--space-3);
     text-align: start;
-    background-color: #111114;
-    border: 1px solid #232328;
-    border-radius: 10px;
-    color: white;
+    border-radius: var(--radius-pill);
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: var(--space-1-5);
     align-items: center;
-    font-family: "Inter";
-    letter-spacing: -0.02em;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    font: var(--type-label-lg);
+    letter-spacing: var(--tracking-label);
 }
 
-.new-chat-button-sidebar button:hover{
-    background-color: #18181a;
-}
-
-.new-chat-button-sidebar button:active{
-    transform: scale(0.99);
+.new-chat-button-sidebar button svg{
+    width: var(--icon-lg);
+    height: var(--icon-lg);
 }
 
 .navigation-sidebar{
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--space-0-5);
 }
 
 .link-sidebar{
     width: 100%;
-    padding: 15px;
-    height: 40px;
+    padding: 0 var(--space-3);
+    height: var(--row);
     display: flex;
     align-items: center;
     justify-content: start;
     flex-direction: row;
-    gap: 12px;
-    border-radius: 8px;
+    gap: var(--space-2);
+    border-radius: var(--radius-tag);
+    color: var(--text-3);
     cursor: pointer;
-    transition: all 0.1s ease;
+    transition: background-color var(--dur-state) var(--ease-out), color var(--dur-state) var(--ease-out);
     text-decoration: none;
 }
 
-.link-sidebar:hover{
-    background-color: #1b1b1d;
+.link-sidebar svg{
+    width: var(--icon-lg);
+    height: var(--icon-lg);
 }
 
-.link-sidebar.active:hover{
-    background-color: #212127;
+.link-sidebar:hover{
+    background-color: var(--hover);
 }
 
 .link-sidebar span{
-    font-size: 15px;
-    font-family: "Inter";
-    color: #C8C8D0;
+    font: var(--type-label);
+    letter-spacing: var(--tracking-label);
+    color: var(--text-2);
 }
 
-.link-sidebar.active{
-    background-color: #1A1A1E;
-}
-
-.link-sidebar.active svg{
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+.link-sidebar.active,
+.link-sidebar.active:hover{
+    background-color: var(--pressed);
+    color: var(--text-1);
 }
 
 .link-sidebar.active span{
-    color: white;
+    color: var(--text-1);
 }
 
 .sidebar-bottom{
     width: 100%;
+    padding-left: var(--space-2);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
 
 }
 
@@ -150,40 +148,35 @@
 .user-name-grp-sidebar{
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: var(--space-2);
     align-items: center;
 
 }
 
 .user-pfp-sidebar{
-    width: 32px;
-    height: 32px;   
+    width: var(--control);
+    height: var(--control);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2A2A30;
-    color: white;
-    border-radius: 60px;
+    background-color: var(--field);
+    color: var(--text-1);
+    border-radius: var(--radius-pill);
 }
 
 .user-pfp-sidebar span{
-    font-family: "Inter";
-    font-size: 14px;
-    color: white;
-    font-weight: 600;
+    font: var(--type-label);
+    letter-spacing: var(--tracking-label);
+    color: var(--text-1);
     text-transform: uppercase;
-}
-
-.user-name-sidebar{
-    margin-bottom: -3px;
 }
 
 .user-name-sidebar span{
     display: inline-block;
     width: 150px;
-    color: white;
-    font-family: "Inter";
-    font-size: 14px;
+    color: var(--text-1);
+    font: var(--type-label);
+    letter-spacing: var(--tracking-label);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -192,14 +185,21 @@
 .logout-btn-sidebar{
     position: relative;
     z-index: 1;
+    width: var(--control);
+    height: var(--control);
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text-3);
     cursor: pointer;
+    transition: color var(--dur-state) var(--ease-out);
+}
+
+.logout-btn-sidebar:hover{
+    color: var(--text-1);
 }
 
 .logout-btn-sidebar:hover .background-btn-sidebar-logout {
-    transform: scale(1);
     opacity: 1;
 }
 
@@ -207,11 +207,64 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    padding: 15px;
-    border-radius: 3px;
-    background-color: #1d1d1d;
+    border-radius: var(--radius-pill);
+    background-color: var(--hover);
     z-index: -1;
     opacity: 0;
-    transform: scale(0.95);
-    transition: all 0.2s ease;
+    transition: opacity var(--dur-state) var(--ease-out);
+}
+
+/* lets the chat list scroll instead of pushing the user info off screen */
+.sidebar-top{
+    flex: 1;
+    min-height: 0;
+}
+
+.recent-chats-sidebar{
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.recent-chats-title-sidebar{
+    padding: 0 var(--space-3);
+    font: var(--type-label-sm);
+    letter-spacing: var(--tracking-label);
+    color: var(--text-2);
+}
+
+.recent-chats-list-sidebar{
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0-5);
+}
+
+.recent-chat-sidebar{
+    flex-shrink: 0;
+    min-height: var(--menu-row);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-tag);
+    font: var(--type-body-sm);
+    line-height: var(--menu-row);
+    color: var(--text-2);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color var(--dur-state) var(--ease-out), color var(--dur-state) var(--ease-out);
+}
+
+.recent-chat-sidebar:hover{
+    background-color: var(--hover-row);
+    color: var(--text-1);
+}
+
+.recent-chat-sidebar.active{
+    background-color: var(--pressed);
+    color: var(--text-1);
 }
