@@ -244,8 +244,15 @@
     gap: var(--space-0-5);
 }
 
-.recent-chat-sidebar{
+.recent-chat-row-sidebar{
+    position: relative;
     flex-shrink: 0;
+    display: flex;
+}
+
+.recent-chat-sidebar{
+    flex: 1;
+    min-width: 0;
     min-height: var(--menu-row);
     padding: 0 var(--space-3);
     border-radius: var(--radius-tag);
@@ -267,4 +274,43 @@
 .recent-chat-sidebar.active{
     background-color: var(--pressed);
     color: var(--text-1);
+}
+
+/* room for the save button so long titles don't run under it */
+.recent-chat-row-sidebar:is(:hover, :focus-within, .saved) .recent-chat-sidebar{
+    padding-right: calc(var(--space-3) + 20px);
+}
+
+.save-chat-btn-sidebar{
+    position: absolute;
+    top: 50%;
+    right: var(--space-1);
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-tag);
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-3);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--dur-state) var(--ease-out), color var(--dur-state) var(--ease-out), background-color var(--dur-state) var(--ease-out);
+}
+
+.recent-chat-row-sidebar:is(:hover, :focus-within) .save-chat-btn-sidebar,
+.recent-chat-row-sidebar.saved .save-chat-btn-sidebar{
+    opacity: 1;
+}
+
+.save-chat-btn-sidebar:hover{
+    background-color: var(--hover);
+    color: var(--text-1);
+}
+
+.recent-chat-row-sidebar.saved .save-chat-btn-sidebar{
+    color: var(--text-2);
 }

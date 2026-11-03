@@ -6,6 +6,9 @@ import {
   onSnapshot,
   orderBy,
   query,
+  serverTimestamp,
+  updateDoc,
+  where,
 } from "firebase/firestore";
 
 export function watchChats(db, uid, callback, onError) {
@@ -21,6 +24,35 @@ export function watchChats(db, uid, callback, onError) {
   );
 }
 
+// Equality-only query so it needs no composite index, sorted newest-saved first here instead
+export function watchSavedChats(db, uid, callback, onError) {
+  const savedQuery = query(
+    collection(db, "users", uid, "chats"),
+    where("saved", "==", true),
+  );
+  return onSnapshot(
+    savedQuery,
+    (snapshot) =>
+      callback(
+        snapshot.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .sort(
+            (a, b) =>
+              (b.savedAt?.toMillis() ?? Date.now()) -
+              (a.savedAt?.toMillis() ?? Date.now()),
+          ),
+      ),
+    onError,
+  );
+}
+
+export function setChatSaved(db, uid, chatId, saved) {
+  return updateDoc(doc(db, "users", uid, "chats", chatId), {
+    saved,
+    savedAt: saved ? serverTimestamp() : null,
+  });
+}
+
 export async function getChatMessages(db, uid, chatId) {
   const chatSnap = await getDoc(doc(db, "users", uid, "chats", chatId));
   if (!chatSnap.exists()) throw new Error("Chat not found.");
@@ -31,11 +63,14 @@ export async function getChatMessages(db, uid, chatId) {
       orderBy("createdAt"),
     ),
   );
-  return snapshot.docs.map((d) => ({
-    id: d.id,
-    role: d.data().role,
-    content: d.data().content,
-  }));
+  return {
+    heroId: chatSnap.data().heroId ?? null,
+    messages: snapshot.docs.map((d) => ({
+      id: d.id,
+      role: d.data().role,
+      content: d.data().content,
+    })),
+  };
 }
 
 // Sends a message and streams the reply back.
@@ -43,7 +78,7 @@ export async function getChatMessages(db, uid, chatId) {
 // `onDelta` fires for every chunk of reply text. Resolves with the full reply.
 export async function sendChatMessage(
   auth,
-  { chatId, message },
+  { chatId, message, heroId },
   { onChatId, onDelta, signal } = {},
 ) {
   const idToken = await auth.currentUser.getIdToken();
@@ -53,7 +88,7 @@ export async function sendChatMessage(
       "Content-Type": "application/json",
       Authorization: `Bearer ${idToken}`,
     },
-    body: JSON.stringify({ chatId, message }),
+    body: JSON.stringify({ chatId, message, heroId }),
     signal,
   });
 

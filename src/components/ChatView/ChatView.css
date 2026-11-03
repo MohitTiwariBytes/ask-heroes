@@ -17,6 +17,7 @@
 .prompt-shell-chat-view{
     width: 680px;
     max-width: 100%;
+    /* padding: 5px 5px; */
 }
 
 .input-box-new-chat{
@@ -74,6 +75,28 @@
     cursor: pointer;
 }
 
+.voice-btn-newchat{
+    padding: 0;
+    border: none;
+    background: none;
+    transition: color var(--dur-state) var(--ease-out), background-color var(--dur-state) var(--ease-out);
+}
+
+.voice-btn-newchat.listening{
+    color: var(--fail-text);
+    background-color: var(--fail-tint);
+    animation: voice-pulse-newchat 1.4s infinite var(--ease-out);
+}
+
+@keyframes voice-pulse-newchat{
+    0%, 100% { box-shadow: 0 0 0 0 var(--fail-tint); }
+    50% { box-shadow: 0 0 0 4px var(--fail-tint); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .voice-btn-newchat.listening{ animation: none; }
+}
+
 .btn-grp-right-newchat{
     display: flex;
     flex-direction: row;
@@ -95,6 +118,145 @@
 .input-box-new-chat svg{
     width: var(--icon-lg);
     height: var(--icon-lg);
+}
+
+.hero-selector-newchat{
+    position: relative;
+    width: fit-content;
+}
+
+.selector-hero-input-box-new-chat{
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: var(--text-1);
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.selector-hero-input-box-new-chat span{
+    font-size: 14px;
+}
+
+.hero-pfp-newchat{
+    width: 15px;
+    height: 15px;
+
+}
+
+.selector-hero-input-box-new-chat.static{
+    cursor: default;
+}
+
+.selector-hero-input-box-new-chat.static span{
+    color: var(--text-2);
+}
+
+.hero-pfp-newchat img,
+.hero-option-pfp-newchat img{
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* heroes without an image get their first letter */
+.hero-initial-newchat{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--field);
+    color: var(--text-2);
+    font-weight: var(--weight-medium);
+}
+
+.hero-pfp-newchat .hero-initial-newchat{
+    font-size: 9px!important;
+}
+
+.hero-menu-newchat{
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    left: 0;
+    z-index: var(--z-overlay);
+    width: 280px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: var(--space-1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0-5);
+}
+
+.hero-option-newchat{
+    width: 100%;
+    padding: var(--space-2);
+    border: none;
+    border-radius: calc(var(--radius-overlay) - var(--space-1));
+    background: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color var(--dur-state) var(--ease-out);
+}
+
+.hero-option-newchat:hover{
+    background-color: var(--hover-row);
+}
+
+.hero-option-newchat[aria-selected="true"]{
+    background-color: var(--hover);
+}
+
+.hero-option-pfp-newchat{
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.hero-option-pfp-newchat .hero-initial-newchat{
+    font-size: 13px;
+}
+
+.hero-option-text-newchat{
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.hero-option-name-newchat{
+    font: var(--type-label);
+    letter-spacing: var(--tracking-label);
+    color: var(--text-1);
+}
+
+.hero-option-tagline-newchat{
+    font: var(--type-caption);
+    color: var(--text-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grp-hs-1{
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
 }
 
 .chat-view{

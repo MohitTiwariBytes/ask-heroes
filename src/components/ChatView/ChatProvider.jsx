@@ -4,6 +4,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -11,8 +12,21 @@ import { useRouter } from "next/navigation";
 import { auth, db } from "@/lib/firebase";
 import { getChatMessages, sendChatMessage } from "@/backend/Chat/main";
 import { useToast } from "../toast/ToastProvider";
+import { DEFAULT_HERO_ID, isHeroId } from "@/lib/heroes";
 
 const ChatContext = createContext(null);
+
+// Remembers the last hero picked, so new chats start with it
+const HERO_STORAGE_KEY = "askHeroes.heroId";
+
+function loadSavedHeroId() {
+  try {
+    const saved = localStorage.getItem(HERO_STORAGE_KEY);
+    return isHeroId(saved) ? saved : DEFAULT_HERO_ID;
+  } catch {
+    return DEFAULT_HERO_ID;
+  }
+}
 
 export function ChatProvider({ children }) {
   const router = useRouter();
@@ -21,8 +35,24 @@ export function ChatProvider({ children }) {
   const [messages, setMessages] = useState([]);
   const [loadingChat, setLoadingChat] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [heroId, setHeroId] = useState(DEFAULT_HERO_ID);
   const activeChatIdRef = useRef(null);
   const abortRef = useRef(null);
+
+  // read after mount, localStorage doesn't exist during server rendering
+  useEffect(() => {
+    if (!activeChatIdRef.current) setHeroId(loadSavedHeroId());
+  }, []);
+
+  const selectHero = useCallback((id) => {
+    if (!isHeroId(id)) return;
+    setHeroId(id);
+    try {
+      localStorage.setItem(HERO_STORAGE_KEY, id);
+    } catch {
+      // storage blocked, the pick still works for this session
+    }
+  }, []);
 
   const resetTo = useCallback((chatId) => {
     abortRef.current?.abort();
@@ -39,14 +69,21 @@ export function ChatProvider({ children }) {
       if (chatId === activeChatIdRef.current) return;
 
       resetTo(chatId);
-      if (!chatId) return;
+      if (!chatId) {
+        setHeroId(loadSavedHeroId());
+        return;
+      }
 
       setLoadingChat(true);
       try {
         await auth.authStateReady();
         if (!auth.currentUser) return;
         const loaded = await getChatMessages(db, auth.currentUser.uid, chatId);
-        if (activeChatIdRef.current === chatId) setMessages(loaded);
+        if (activeChatIdRef.current === chatId) {
+          setMessages(loaded.messages);
+          // chats from before heroes existed fall back to the default
+          setHeroId(isHeroId(loaded.heroId) ? loaded.heroId : DEFAULT_HERO_ID);
+        }
       } catch (error) {
         if (activeChatIdRef.current === chatId) showToast(error.message);
       } finally {
@@ -88,7 +125,7 @@ export function ChatProvider({ children }) {
       try {
         const reply = await sendChatMessage(
           auth,
-          { chatId: startedInChatId, message },
+          { chatId: startedInChatId, message, heroId },
           {
             signal: controller.signal,
             onChatId: (id) => {
@@ -120,7 +157,7 @@ export function ChatProvider({ children }) {
         }
       }
     },
-    [router, showToast],
+    [router, showToast, heroId],
   );
 
   return (
@@ -130,6 +167,8 @@ export function ChatProvider({ children }) {
         messages,
         loadingChat,
         isStreaming,
+        heroId,
+        selectHero,
         openChat,
         startNewChat,
         sendMessage,

@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read, create, update: if isOwner(uid);
+
+      match /chats/{chatId} {
+        allow read: if isOwner(uid);
+
+        // saving a chat may only touch the saved fields
+        allow update: if isOwner(uid)
+          && request.resource.data.diff(resource.data).affectedKeys()
+               .hasOnly(['saved', 'savedAt'])
+          && request.resource.data.saved is bool
+          && (request.resource.data.savedAt == null
+              || request.resource.data.savedAt == request.time);
+
+        match /messages/{messageId} {
+          allow read: if isOwner(uid);
+        }
+      }
+    }
+  }
+}

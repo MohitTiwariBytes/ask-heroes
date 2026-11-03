@@ -8,7 +8,7 @@ import { useToast } from "../toast/ToastProvider";
 import { useState, useRef, useEffect } from "react";
 import { usePopup } from "../popup/PopupProvider";
 import { getUserProfile } from "@/backend/User/main";
-import { watchChats } from "@/backend/Chat/main";
+import { setChatSaved, watchChats } from "@/backend/Chat/main";
 import { useChat } from "../ChatView/ChatProvider";
 import { db } from "@/lib/firebase";
 import Image from "next/image";
@@ -104,6 +104,12 @@ export default function Sidebar() {
       });
   };
 
+  const toggleSaved = (chat) => {
+    setChatSaved(db, userId, chat.id, !chat.saved).catch((error) =>
+      showToast(error.message),
+    );
+  };
+
   const handleSignOutClick = async () => {
     const choice = await showPopup({
       title: "Confirm Logout",
@@ -130,31 +136,6 @@ export default function Sidebar() {
             width={164}
             height={29}
           />
-          <div className="sidebar-close-btn">
-            <div className="background-btn-sidebar-close"></div>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.75 2.25H14.25C15.0784 2.25 15.75 2.92157 15.75 3.75V14.25C15.75 15.0784 15.0784 15.75 14.25 15.75H3.75C2.92157 15.75 2.25 15.0784 2.25 14.25V3.75C2.25 2.92157 2.92157 2.25 3.75 2.25Z"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="currentColor"
-              />
-              <path
-                d="M6.75 2.25V15.75"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="currentColor"
-              />
-            </svg>
-          </div>
         </div>
         <div className="new-chat-button-sidebar">
           <button className="flat" onClick={startNewChat}>
@@ -195,39 +176,6 @@ export default function Sidebar() {
             </svg>
             <span>Chat</span>
           </Link>
-          <Link href="/dashboard/heroes" className={linkClass("heroes")}>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9.75 5.25C9.75 6.90685 8.40685 8.25 6.75 8.25C5.09315 8.25 3.75 6.90685 3.75 5.25C3.75 3.59315 5.09315 2.25 6.75 2.25C8.40685 2.25 9.75 3.59315 9.75 5.25Z"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="currentColor"
-              />
-              <path
-                d="M2.25 15.75V14.25C2.25 13.4544 2.56607 12.6913 3.12868 12.1287C3.69129 11.5661 4.45435 11.25 5.25 11.25H8.25C9.04565 11.25 9.80871 11.5661 10.3713 12.1287C10.9339 12.6913 11.25 13.4544 11.25 14.25V15.75"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="currentColor"
-              />
-              <path
-                d="M12 2.32501C12.6628 2.47607 13.2546 2.84775 13.6786 3.37916C14.1025 3.91058 14.3334 4.57022 14.3334 5.25001C14.3334 5.92981 14.1025 6.58945 13.6786 7.12086C13.2546 7.65228 12.6628 8.02396 12 8.17501M15.75 15.75V14.25C15.7545 13.5815 15.5356 12.9306 15.1279 12.4006C14.7203 11.8707 14.1473 11.4921 13.5 11.325"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="currentColor"
-              />
-            </svg>
-
-            <span>Heroes</span>
-          </Link>
           <Link href="/dashboard/saved" className={linkClass("saved")}>
             <svg
               width="18"
@@ -252,15 +200,44 @@ export default function Sidebar() {
             <span className="recent-chats-title-sidebar">Recents</span>
             <div className="recent-chats-list-sidebar">
               {chats.map((chat) => (
-                <Link
+                <div
                   key={chat.id}
-                  href={`/dashboard/chat/${chat.id}`}
-                  className={`recent-chat-sidebar${
-                    pathname === `/dashboard/chat/${chat.id}` ? " active" : ""
+                  className={`recent-chat-row-sidebar${
+                    chat.saved ? " saved" : ""
                   }`}
                 >
-                  {chat.title}
-                </Link>
+                  <Link
+                    href={`/dashboard/chat/${chat.id}`}
+                    className={`recent-chat-sidebar${
+                      pathname === `/dashboard/chat/${chat.id}` ? " active" : ""
+                    }`}
+                  >
+                    {chat.title}
+                  </Link>
+                  <button
+                    type="button"
+                    className="save-chat-btn-sidebar"
+                    aria-label={chat.saved ? "Unsave chat" : "Save chat"}
+                    aria-pressed={!!chat.saved}
+                    onClick={() => toggleSaved(chat)}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 18 18"
+                      fill={chat.saved ? "currentColor" : "none"}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.25 15.75L9 12L3.75 15.75V3.75C3.75 3.35218 3.90804 2.97064 4.18934 2.68934C4.47064 2.40804 4.85218 2.25 5.25 2.25H12.75C13.1478 2.25 13.5294 2.40804 13.8107 2.68934C14.092 2.97064 14.25 3.35218 14.25 3.75V15.75Z"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        stroke="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </div>
               ))}
             </div>
           </div>

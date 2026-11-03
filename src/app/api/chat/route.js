@@ -1,6 +1,7 @@
 import { after } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAdminAuth, getAdminDb } from "@/lib/firebaseAdmin";
+import { DEFAULT_HERO_ID, getHero, isHeroId } from "@/lib/heroes";
 
 const AI_URL = "https://ai.hackclub.com/proxy/v1/chat/completions";
 const MODEL = process.env.HACKCLUB_AI_MODEL || "qwen/qwen3-32b";
@@ -8,9 +9,6 @@ const MODEL = process.env.HACKCLUB_AI_MODEL || "qwen/qwen3-32b";
 // Only the most recent messages are sent back to the model as context
 const HISTORY_LIMIT = 30;
 const MAX_MESSAGE_LENGTH = 8000;
-
-const SYSTEM_PROMPT =
-  "You are Ask Heroes, a friendly and helpful assistant. Answer clearly and concisely.";
 
 const TITLE_PROMPT =
   "Write a short title (at most 6 words) for a conversation that starts with the user's message below. Reply with the title only, no quotes.";
@@ -129,12 +127,16 @@ export async function POST(request) {
     .collection("chats");
   let chatRef;
   let history = [];
+  let heroId;
   const isNewChat = !body.chatId;
 
   if (isNewChat) {
+    // the hero is picked once, when the chat starts, and saved with it
+    heroId = isHeroId(body.heroId) ? body.heroId : DEFAULT_HERO_ID;
     chatRef = chatsRef.doc();
     await chatRef.set({
       title: "New chat",
+      heroId,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
@@ -145,6 +147,7 @@ export async function POST(request) {
     chatRef = chatsRef.doc(body.chatId);
     const chatSnap = await chatRef.get();
     if (!chatSnap.exists) return errorResponse("Chat not found.", 404);
+    heroId = chatSnap.data().heroId;
 
     const historySnap = await chatRef
       .collection("messages")
@@ -168,7 +171,7 @@ export async function POST(request) {
 
   const aiRes = await callAI(
     [
-      { role: "system", content: SYSTEM_PROMPT },
+      { role: "system", content: getHero(heroId).systemPrompt },
       ...history,
       { role: "user", content: message },
     ],
