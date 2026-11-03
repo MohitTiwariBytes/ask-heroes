@@ -9,7 +9,10 @@ function getAdminApp() {
   const serviceAccount = {
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    // hosting dashboards often keep the quotes from .env and store newlines as "\n"
+    privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.trim()
+      .replace(/^"|"$/g, "")
+      .replace(/\\n/g, "\n"),
   };
 
   const missing = Object.entries(serviceAccount)
