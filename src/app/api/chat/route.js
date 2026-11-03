@@ -1,4 +1,3 @@
-import { after } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAdminAuth, getAdminDb } from "@/lib/firebaseAdmin";
 import { DEFAULT_HERO_ID, getHero, isHeroId } from "@/lib/heroes";
@@ -166,8 +165,11 @@ export async function POST(request) {
     createdAt: FieldValue.serverTimestamp(),
   });
 
-  // Runs once the response is done, so the reply isn't held up waiting on it
-  if (isNewChat) after(() => generateTitle(chatRef, message));
+  // Runs alongside the reply and is awaited before the response closes. after() and work
+  // left running past the response get killed on serverless hosts like Netlify
+  const titleDone = isNewChat
+    ? generateTitle(chatRef, message)
+    : Promise.resolve();
 
   const aiRes = await callAI(
     [
@@ -179,6 +181,7 @@ export async function POST(request) {
   ).catch(() => null);
 
   if (!aiRes?.ok || !aiRes.body) {
+    await titleDone;
     // the chat (and the user's message) still exist, so send the id back
     return errorResponse(aiErrorMessage(aiRes?.status), 502, {
       chatId: chatRef.id,
@@ -220,6 +223,9 @@ export async function POST(request) {
       } catch (error) {
         console.error("Saving reply failed:", error);
       }
+
+      // never throws, failures are only logged
+      await titleDone;
 
       try {
         controller.close();
